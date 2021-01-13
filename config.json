@@ -1,3 +1,6 @@
 {
-    "BOT_TOKEN": "What are *you* looking for?"
+    "BOT_TOKEN": "Nice try :)",
+    "RANDYID": "274476291045064704",
+    "AUTHUSERS": ["270714283782963210", "testtesttest"],
+    "GREETINGS": ["Hello", "Hey there", "Howdy", "Good day", "Hey", "Hola"]
 }
