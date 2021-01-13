@@ -5,10 +5,19 @@ const { Client, MessageEmbed } = require('discord.js');
 const client = new Discord.Client();
 const neko = new NekoClient();
 
+const ytdl = require('ytdl-core');
 const perms = new Discord.Permissions();
 
-const currentCommands = "```help, test, fuck you, what am I, where am I, kek or cringe, catgirl , furify```";
+const currentCommands = "```help, test, fuck you, what am I, where am I, kek or cringe, catgirl, furify, do you like randybot, hi, fuck me, github```";
 const prefix = "botob, ";
+
+
+
+
+function checkArray(checkedvalue, checkedarray)
+{
+  
+}
 
 client.on('ready', () => {
   console.log('BOTOB, Reporting for Duty!');
@@ -25,7 +34,9 @@ client.on("message", function(message) {
 
   if (command === "help")
   {
+    message.channel.send('My prefix is `' + prefix.toString() + "`. To add an argument to a command, use `:`, and then your argument.");
     message.channel.send("My current commands are: " + currentCommands);
+    message.channel.send("VC Commands: ```kill me, please stop```")
     //message.channel.send("Uh, it seems like `catgirl` and `where am I` aren't in tip-top shape right now... so stay away from those.");
   }
   
@@ -70,6 +81,9 @@ client.on("message", function(message) {
     message.channel.send("Loading...");
    
     message.channel.send("You are in the " + message.guild.name + " server. " + message.guild.memberCount + " users are here. Was created on " + message.guild.createdAt + ".");
+    message.channel.send("Your current channel is " + message.channel.name + ". Was created at " + message.channel.createdAt);
+    //message.channel.send("You are in " + message.author.locale.toString() + ".");
+    //console.log(message.author);
     
     //message.channel.send(message.guild.iconURL());
   }
@@ -82,7 +96,7 @@ client.on("message", function(message) {
     
     const cgType = args;
 
-    if(message.guild.id != 706349539207938068)
+    if(message.guild.id != 706349539207938068 && message.guild.id != 739445567947538533)
     {
       async function test()
       {
@@ -98,7 +112,7 @@ client.on("message", function(message) {
   
     else
     {
-      message.channel.send("wrong server")
+      message.channel.send(message.guild.name + " was blacklisted. Sorry.")
     }
   
   }
@@ -117,8 +131,8 @@ client.on("message", function(message) {
       {
         console.log(args.toString()); 
        const owo = await neko.sfw.OwOify({text: args});
-        console.log(owo.owo);
-        message.channel.send(owo.owo);
+        console.log(await owo.owo);
+        message.channel.send(await owo.owo);
 
       }
   
@@ -126,9 +140,110 @@ client.on("message", function(message) {
     }
    
     
+
   }
   
+  if(command === "say")
+  {
+    console.log("called say command");
+    if(message.author.id.toString() === "270714283782963210")
+    {  
+      message.channel.send(args.toString());
+      message.delete();
+    }
+    else if(message.author.id.toString() != "270714283782963210")
+    {
+     message.channel.send("You aren't the real kotob!");
+    }
+    if(message.author.id === config.RANDYID)
+    {
+      
+      message.channel.send("but I love you anyways randy :heart:");
+      
+    }
+  } 
+
+  if(command === "do you love randybot")
+  {
+    message.channel.send("Yes I do!");
+    message.channel.send("randybot, i love you");
+  }
+  
+  if(command === "hi")
+  {
+    const randValue = Math.floor(Math.random() * config.GREETINGS.length)
+    message.channel.send(config.GREETINGS[randValue] + ", " + message.author.username + "!");
+  }
+  if(command === "fuck me")
+  {
+    message.channel.send("I wish.")
+  }
+ 
+if(command === "join me asasdsasdasdasdsdad")
+{
+  if (message.member.voice.channel) 
+  {
+    const connection = message.member.voice.channel.join();
+    connection.play('audio\dunkachinno.mp3');
+    
+    //dispatcher.on('finish', () => {
+     // dispatcher.destroy();
+    //  console.log('Finished playing!');
+  //  });
+  
+  } 
+  else 
+  {
+    message.reply('go join a voice channel first');
+  }
+}
+if(command === "dunkachinno")
+{
+  //connection.play('audio\dunkachinno.mp3');
+}
+if(command === "github")
+{
+  message.channel.send("You can poke me at https://github.com/afunfun22/botob-discord-bot/")
+}
+
 }); 
 
-client.login(config.BOT_TOKEN);
+client.on('message', async message => {
+  // Voice only works in guilds, if the message does not come from a guild,
+  // we ignore it
+  if (!message.guild) return;
 
+  const commandBody = message.content.slice(prefix.length);
+  const args = commandBody.split(':');
+  const command = args.shift().toLowerCase();
+
+  if (command === 'kill me') {
+    // Only try to join the sender's voice channel if they are in one themselves
+    if (message.member.voice.channel) {
+      if(args.toString() === "")
+      {
+        message.channel.send("Link a youtube video :) Example: ```botob, kill me: https://www.youtube.com/watch?v=6ZECSHTrlSo```");
+      }
+      const connection = await message.member.voice.channel.join();
+      const dispatcher = connection.play(ytdl(args.toString(), { filter: 'audioonly' }));
+
+      dispatcher.on('finish', () => {
+        console.log('Finished playing!');
+        dispatcher.destroy();
+        connection.disconnect();
+      });
+    } else {
+      message.reply('You need to join a voice channel first!');
+    }
+
+  }
+  if (command === 'please stop')
+  {
+    const connection = await message.member.voice.channel.join();
+    const dispatcher = connection.play(ytdl(args.toString(), { filter: 'audioonly' }));
+    connection.disconnect();
+  }
+
+});
+
+client.login(config.BOT_TOKEN);
