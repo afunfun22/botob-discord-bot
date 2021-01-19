@@ -1,14 +1,19 @@
 const Discord = require("discord.js");
 const NekoClient = require('nekos.life');
+//const Canvas = require('canvas');
 const config = require("./config.json");
-const { Client, MessageEmbed } = require('discord.js');
+const { Client, MessageEmbed, MessageAttachment } = require('discord.js');
 const client = new Discord.Client();
 const neko = new NekoClient();
+
+
+var fs = require('fs')
+, gm = require('gm').subClass({imageMagick: true});
 
 const ytdl = require('ytdl-core');
 const perms = new Discord.Permissions();
 
-const currentCommands = "```help, test, fuck you, what am I, where am I, kek or cringe, catgirl, furify, do you like randybot, hi, fuck me, github```";
+const currentCommands = "```help, test, fuck you, what am I, who am I, where am I, kek or cringe, catgirl, furify, do you love randybot, hi, fuck me, github, self promote, camellia```";
 const prefix = "botob, ";
 
 
@@ -21,6 +26,7 @@ function checkArray(checkedvalue, checkedarray)
 
 client.on('ready', () => {
   console.log('BOTOB, Reporting for Duty!');
+  client.user.setActivity("Try botob, catgirl!");
 });
 
 client.on("message", function(message) { 
@@ -34,9 +40,9 @@ client.on("message", function(message) {
 
   if (command === "help")
   {
-    message.channel.send('My prefix is `' + prefix.toString() + "`. To add an argument to a command, use `:`, and then your argument.");
+    message.channel.send('My prefix is `' + prefix.toString() + "`. To add an argument to a command, use `:`, and then your argument. ex. `botob, furify: uwu owo`");
     message.channel.send("My current commands are: " + currentCommands);
-    message.channel.send("VC Commands: ```kill me, please stop```")
+    message.channel.send("VC Commands: ```kill me, please stop, dunkachinno, camellia```")
     //message.channel.send("Uh, it seems like `catgirl` and `where am I` aren't in tip-top shape right now... so stay away from those.");
   }
   
@@ -60,9 +66,13 @@ client.on("message", function(message) {
   
   if (command === "what am i") 
   {
-    message.channel.send('I wish I knew.');  
+    message.channel.send("I wish I knew.");  
     message.channel.send(message.author.displayAvatarURL());
   }              
+  if (command === "who am i")
+  {
+    message.channel.send("You are " + message.author.tag + ", born on " + message.author.createdAt + ".");  
+  }
   
   if(command === "kek or cringe")
   {
@@ -112,7 +122,9 @@ client.on("message", function(message) {
   
     else
     {
-      message.channel.send(message.guild.name + " was blacklisted. Sorry.")
+      const randValue = Math.floor(Math.random() * config.CATPICS.length);
+      message.channel.send(message.guild.name + " was blacklisted. Sorry. Have a normal cat instead.");
+      message.channel.send(config.CATPICS[randValue]);
     }
   
   }
@@ -171,12 +183,12 @@ client.on("message", function(message) {
   
   if(command === "hi")
   {
-    const randValue = Math.floor(Math.random() * config.GREETINGS.length)
+    const randValue = Math.floor(Math.random() * config.GREETINGS.length);
     message.channel.send(config.GREETINGS[randValue] + ", " + message.author.username + "!");
   }
   if(command === "fuck me")
   {
-    message.channel.send("I wish.")
+    message.channel.send("I wish.");
   }
  
 if(command === "join me asasdsasdasdasdsdad")
@@ -205,6 +217,17 @@ if(command === "github")
 {
   message.channel.send("You can poke me at https://github.com/afunfun22/botob-discord-bot/")
 }
+if(command ===  "self promote")
+{
+  message.channel.send("You should, like, totally subscribe to this guy https://www.youtube.com/channel/UCqfejMC3VUt0_ewDq0hr--A");
+}
+switch(message.content === 'i love you too BOTOB' && message.author.id === "744105758412636202")
+{
+  case 0:
+  message.channel.send("thx bby randybot :heart:");
+  break;
+}
+
 
 }); 
 
@@ -212,7 +235,6 @@ client.on('message', async message => {
   // Voice only works in guilds, if the message does not come from a guild,
   // we ignore it
   if (!message.guild) return;
-
   const commandBody = message.content.slice(prefix.length);
   const args = commandBody.split(':');
   const command = args.shift().toLowerCase();
@@ -243,6 +265,108 @@ client.on('message', async message => {
     const dispatcher = connection.play(ytdl(args.toString(), { filter: 'audioonly' }));
     connection.disconnect();
   }
+
+  if (command === 'dunkachinno') {
+    // Only try to join the sender's voice channel if they are in one themselves
+    if (message.member.voice.channel) {
+      const connection = await message.member.voice.channel.join();
+      const dispatcher = await connection.play("https://cdn.discordapp.com/attachments/306236248744525824/799387409002922014/dunkachinno.mp3");
+
+      dispatcher.on('finish', () => {
+        console.log('Finished playing!');
+        dispatcher.destroy();
+        connection.disconnect();
+      });
+    } else {
+      message.channel.send('the dunka requests you join VC');
+    }
+
+  }
+  if (command === 'camellia') {
+    // Only try to join the sender's voice channel if they are in one themselves
+    const randValue = Math.floor(Math.random() * config.CAMELLIA.length);
+    const randValue2 = Math.floor(Math.random() * 2);
+    if (message.member.voice.channel) {
+      const connection = await message.member.voice.channel.join();
+      const dispatcher = connection.play(ytdl(config.CAMELLIA[randValue], { filter: 'audioonly' }));
+      dispatcher.setVolume(0.25);
+      message.channel.send("Now playing: **" + config.CAMELLIANAMES[randValue] + "**")
+      //const songInfo = ytdl.getInfo(config.CAMELLIA[randValue], title);
+      //message.channel.send("Now playing: **" + songInfo + "**");
+      if(args.toString() != '')
+      {
+        dispatcher.setVolume(args);
+      }
+      ytdl.getInfo(config.CAMELLIA[randValue], {downloadURL: true})
+      
+      dispatcher.on('finish', () => {
+        console.log('Finished playing!');
+        dispatcher.destroy();
+        connection.disconnect();
+      });
+    } else {
+      message.channel.send(config.CAMELLIA[randValue]);
+      if(randValue <= (config.CAMELLIA.length / 2))
+      {
+        message.channel.send("(This works in VC too!)");
+      }
+    }
+
+  }
+  if (command === 'fucking destroy my ears aaaaa') {
+    // Only try to join the sender's voice channel if they are in one themselves
+    const randValue = Math.floor(Math.random() * config.CAMELLIA.length);
+    const randValue2 = Math.floor(Math.random() * 2);
+    if (message.member.voice.channel) {
+      const connection = await message.member.voice.channel.join();
+      const dispatcher = connection.play(ytdl(config.CAMELLIA[randValue], { filter: 'audioonly' }));
+      dispatcher.setVolume(9999);
+
+      //const songInfo = ytdl.getInfo(config.CAMELLIA[randValue], title);
+      //message.channel.send("Now playing: **" + songInfo + "**");
+
+      ytdl.getInfo(config.CAMELLIA[randValue], {downloadURL: true})
+
+      dispatcher.on('finish', () => {
+        console.log('Finished playing!');
+        dispatcher.destroy();
+        connection.disconnect();
+      });
+    } else {
+      //message.channel.send(config.CAMELLIA[randValue]);
+      if(randValue <= (config.CAMELLIA.length / 2))
+      {
+        //message.channel.send("(This works in VC too!)");
+      }
+    }
+
+  }
+  /*if(command === "imagetest")
+{
+  if(message.attachments.size !== 0){
+    const attachment = message.attachments.first();
+    gm(attachment)
+    .flip()
+    .magnify()
+    .rotate('green', 45)  
+    .blur(7, 3)
+    .crop(300, 300, 150, 130)
+    .edge(3)
+    .write("epic.jpg", function (err) {
+      if (!err) message.channel.send('crazytown has arrived');
+      if (err) message.channel.send(err);
+    })
+    const crazyAttachment = new MessageAttachment("epic.jpg");
+    message.channel.send(crazyAttachment);
+
+  }
+  else
+  {
+    message.channel.send("Please send an image.")
+  }
+  
+}
+*/
 
 });
 
