@@ -1,6 +1,9 @@
 {
-    "BOT_TOKEN": "Nice try :)",
+    "BOT_TOKEN": "github gaming :sunglasses:",
     "RANDYID": "274476291045064704",
     "AUTHUSERS": ["270714283782963210", "testtesttest"],
-    "GREETINGS": ["Hello", "Hey there", "Howdy", "Good day", "Hey", "Hola"]
+    "GREETINGS": ["Hello", "Hey there", "Howdy", "Good day", "Hey", "Hola", "Aloha", "Hi", "Good to see you", "Nice to see you", "Great to see you", "Nice to see you again", "Salutations", "Greetings"],
+    "CAMELLIA": ["https://www.youtube.com/watch?v=lc4nTM6M9KY", "https://www.youtube.com/watch?v=SVSvVC-5__c", "https://www.youtube.com/watch?v=eKyQvs6tCRM", "https://www.youtube.com/watch?v=GEwP5VG5bWo", "https://www.youtube.com/watch?v=dkYHgxfQZBA", "https://www.youtube.com/watch?v=QsuAKlNe_rI"],
+    "CAMELLIANAMES": ["ΩΩPARTS", "NUCLEAR-STAR", "Light it up", "GHOST (2020 Halloween+++++++++ VIP)", "crystallized", "Exit This Earth's Atomosphere"],
+    "CATPICS": ["https://cdn2.thecatapi.com/images/9ub.jpg", "https://cdn2.thecatapi.com/images/acq.jpg", "https://cdn2.thecatapi.com/images/qwYvuuMxz.jpg", "https://cdn2.thecatapi.com/images/80kGxlgR1.jpg", "https://cdn2.thecatapi.com/images/20e.png", "https://cdn2.thecatapi.com/images/dc4.gif"]
 }
